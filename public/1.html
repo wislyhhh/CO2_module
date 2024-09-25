@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>参数输入表单</title>
+    <link rel="stylesheet" href="mystyles2.css">
+</head>
+    <body class="flex">
+     <div class="container">
+        <div class="input-group">
+            <form id="parametersForm">
+               
+            <div class="input-group1">
+                <h2>发射系统</h2>
+                <label for="energy_off">监测能量<sub>off</sub>（mJ)</label>
+                <input type="number" id="energy_off" name="energy_off" step="any" value="75" required>
+                
+                <br>
+
+                <label for="energy_on">监测能量<sub>on</sub>（mJ）</label>
+                <input type="number" id="energy_on" name="energy_on" step="any" value="75" required>
+        
+                <br>
+
+                <label for="optical_efficient">光学效率：</label>
+                <input type="number" id="optical_efficient" name="optical_efficient" step="any" value="0.6355" required>
+                
+                <br>
+
+                <label for="pulse_width">脉宽(ns)</label>
+                <input type="number" id="pulse_width" name="pulse_width" step="any" value="17" required>
+                
+                <br>
+
+                <label for="reference_wavelength">参考波长(cm<sup>-1</sup>)</label>
+                <input type="number" id="reference_wavelength" name="reference_wavelength" step="any" value="6360.981" required>
+                
+                <br>
+
+                <label for="satellite_altitude">卫星高度(km)</label>
+                <input type="number" id="satellite_altitude" name="satellite_altitude" step="any" value="705" required>
+                
+                <br>
+
+                <label for="working_wavelength">工作波长(cm<sup>-1</sup>)</label>
+                <input type="number" id="working_wavelength" name="working_wavelength" step="any" value="6361.225" required>
+        
+                <br>
+            </div>
+        <div class="input-group2">
+            <h2>接收系统</h2> <label for="FOV">视场角(mrad)</label>
+            <input type="number" id="FOV" name="FOV" step="any" value="1" required>
+            
+            <br>
+
+            <label for="excess_noise_factor">剩余噪声系数</label>
+            <input type="number" id="excess_noise_factor" name="excess_noise_factor" step="any" value="0" >
+        
+            <br>
+
+            <label for="filter_bandwidth">滤波器带宽（nm)</label>
+            <input type="number" id="filter_bandwidth" name="filter_bandwidth" step="any" value="3" required>
+            
+            <br>
+
+            <label for="intergal_G_factor">内部增益</label>
+            <input type="number" id="intergal_G_factor" name="intergal_G_factor" step="any" value="3.2" required>
+            
+            <br>
+
+            <label for="responsivity">响应度</label>
+            <input type="number" id="responsivity" name="responsivity" step="any" value="0.94" required>
+            
+            <br>
+
+            <label for="telescope_diam">望远镜直径（m）</label>
+            <input type="number" id="telescope_diam" name="telescope_diam" step="any" value="1" required>
+            
+            <br>
+        </div></form></div>
+        <div class="output-group">
+        <div class="backgroundnumber">
+            <h2>背景参数</h2>
+            <input type="radio" name="day" value="day" checked="checked" style="font-size: 18px;margin-top: 10px;"> 白天<br>
+  <input type="radio" name="day" value="night"  style="font-size: 18px"> 夜晚<br>
+           <br>
+            <label for="xco2_initial">XCO<sub>2</sub>初始场</label>
+            <select id="xco2_initial" name="xco2_initial">
+                <option value="default">默认</option>
+            
+            
+            </select>
+            <br>
+            
+            <label for="satellite_orbit">卫星轨迹</label>
+            <select id="satellite_orbit" name="satellite_orbit">
+                <option value="polar_orbit">南极-东亚</option>
+                <option value="equatorial_orbit">太平洋-欧洲</option>
+                
+            </select>
+            <br>
+            
+            <label for="ground_model">地面模型</label>
+            <select id="ground_model" name="ground_model">
+                <option value="default">默认</option>
+            </select>
+            <br>
+            
+            <label for="land_sea_flag">海陆标识</label>
+            <select id="land_sea_flag" name="land_sea_flag">
+                <option value="land">默认</option>
+                
+            </select>
+            <br> </div>
+            <div class="main-area">
+               
+                <input type="file" id="fileInput" name="fileName"  multiple style="display: none;">    
+                <button type="button" id="startSimulation" onclick="startSimulation(),triggerFileInput()">激光回波数据链路仿真</button>
+                
+                <div class="progress" id="progressContainer">
+                    <div class="progress-bar" id="progressBar">0%</div>
+                </div>
+                <div class="vice-area">
+        
+                    <button type="button" onclick="saveParams()">保存参数</button></div>
+                    
+                    <div class></div>
+                    <button type="button" onclick="startRetrieval()" style="margin-bottom: 3px;">激光探测任务分析</button><br>
+                    <button type="button" onclick="startFusion()">数据融合</button>
+                    </div>
+                    <h2>输出</h2>
+            <div class="output-number" id="output-number">
+                <pre class="content_s" id="content_s"></pre>
+                <pre class="content_r" id="content_r"></pre></div>
+        </div></div>
+     
+<div class="output-area">
+    
+                   
+          
+                    
+                    <div id="output">
+                        <div class="output-image-container" style="margin: 0px; margin-left: 30px;">
+                            <label for="plot_image1">IPDA输出信号</label>
+                            <img id="plot_image1" src="" alt="结果图像">
+                        </div>
+                    
+                        <div class="output-image-container">
+                            <label for="plot_image2">差分光学厚度</label>
+                            <img id="plot_image2" src="" alt="结果图像">
+                        </div>
+                    
+                        <div class="output-image-container">
+                            <label for="plot_image3">XCO2伪数据</label>
+                            <img id="plot_image3" src="" alt="结果图像">
+                        </div>
+                       
+                        <!-- 根据需要添加其他输出元素 -->
+                    </div>
+                </div>
+            </div>
+</div>
+
+<script src="script.js"></script>
+
+    </body>
+</html>
